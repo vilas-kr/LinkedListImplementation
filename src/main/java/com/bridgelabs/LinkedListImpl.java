@@ -1,5 +1,7 @@
 package com.bridgelabs;
 
+import java.util.LinkedList;
+
 public class LinkedListImpl<T> {
 
     private Node<T> head;
@@ -45,7 +47,7 @@ public class LinkedListImpl<T> {
 
     public void displayReverse(){
         if(head == null){
-            System.out.print("List is empty");
+            System.err.print("List is empty");
             return;
         }
         Node<T> temp = tail;
@@ -57,7 +59,7 @@ public class LinkedListImpl<T> {
 
     public T removeFront(){
         if(head == null){
-            System.out.print("List is empty");
+            System.err.print("List is empty");
             return null;
         }else if (head.next == null) {
             T data = head.data;
@@ -149,6 +151,69 @@ public class LinkedListImpl<T> {
         }
     }
 
+    public int search(T data){
+        if(head == null){
+            System.err.println("List is empty");
+            return -1;
+        }
+        Node<T> temp = head;
+        int count = 0;
+        while(temp != null){
+            if(temp.data.equals(data)){
+                return count;
+            }
+            count++;
+            temp = temp.next;
+        }
+        return -1;
+    }
 
+    public T remove(T data){
+        if(head == null){
+            System.err.println("List is empty");
+            return null;
+        }
+        int index = search(data);
+        if(index == -1){
+            System.err.println("Object not found");
+            return null;
+        }else if(index == 0){
+            return removeFront();
+        }else if(index == size()-1){
+            return removeRear();
+        }else{
+            Node<T> temp = head;
+            for(int i = 0; i < index; i++){
+                temp = temp.next;
+            }
+            temp.previous.next = temp.next;
+            temp.next.previous = temp.previous;
+            return temp.data;
+        }
+    }
+
+    /*
+    insert after the given object
+     */
+    public T add(T data, T newData){
+        if(head == null){
+            System.err.println("List is empty");
+            return null;
+        }
+        int index = search(data);
+        if(index == -1){
+            System.err.println("Object not found");
+            return null;
+        }else if(index == size()){
+            return insertRear(newData);
+        }
+        Node<T> temp = head;
+        for(int i = 0; i < index; i++){
+            temp = temp.next;
+        }
+        Node<T> newNode = new Node<>(newData, temp.next, temp);
+        temp.next = newNode;
+        return newNode.data;
+    }
 
 }
