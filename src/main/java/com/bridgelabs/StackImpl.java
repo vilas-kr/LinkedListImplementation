@@ -22,6 +22,10 @@ public class StackImpl<T> {
         return stack.size();
     }
 
+    public boolean isEmpty(){
+        return stack.isEmpty();
+    }
+
 
 }
 
